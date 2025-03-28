@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Paylaşım Dünyasına Hoş Geldiniz</h1>
+        <p class="subtitle">Düşüncelerinizi özgürce paylaşın, diğer kullanıcılarla etkileşime geçin</p>
+
+        {% if not user.is_authenticated %}
+        <div class="auth-buttons">
+            <a href="{% url 'register' %}" class="btn btn-primary">Hemen Katıl</a>
+            <a href="{% url 'login' %}" class="btn btn-outline">Giriş Yap</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="features-section">
+    <h2>Neler Yapabilirsiniz?</h2>
+    <div class="features-container">
+        <div class="feature-card">
+            <i class="fas fa-pencil-alt feature-icon"></i>
+            <h3>Paylaşım Yap</h3>
+            <p>Düşüncelerinizi yazıya dökün ve toplulukla paylaşın</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-users feature-icon"></i>
+            <h3>Bağlantı Kur</h3>
+            <p>Benzer ilgi alanlarına sahip kişilerle etkileşime geçin</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-chart-line feature-icon"></i>
+            <h3>Takip Et</h3>
+            <p>Beğendiğiniz içerikleri kaydedin ve takip edin</p>
+        </div>
+    </div>
+</section>
+
+{% if user.is_authenticated %}
+<section class="recent-posts">
+    <h2>Son Paylaşımlar</h2>
+    <div class="posts-grid">
+        {% for post in posts %}
+        <div class="post-card">
+            <h3>{{ post.title }}</h3>
+            <p class="post-content">{{ post.content|truncatechars:100 }}</p>
+            <div class="post-meta">
+                <span class="author">{{ post.author.username }}</span>
+                <span class="date">{{ post.created_at|date:"d M Y" }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+
+
+<!--
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paylaşım Sitesi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Paylaşım Sitesi</h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}">Profil</a>
+                <a href="{% url 'create_post' %}">Paylaşım Yap</a>
+                <a href="{% url 'logout' %}">Çıkış Yap</a>
+            {% else %}
+                <a href="{% url 'login' %}">Giriş Yap</a>
+                <a href="{% url 'register' %}">Kayıt Ol</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        <section class="posts">
+            {% for post in posts %}
+                <article class="post">
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.content }}</p>
+                    <small>Yazar: {{ post.author.username }} | Tarih: {{ post.created_at }}</small>
+                </article>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 Paylaşım Sitesi</p>
+    </footer>
+</body>
+</html>
+-->
+
